@@ -32,3 +32,34 @@ class Profile(db.Model):
 
     def __repr__(self):
         return '<Profile {}>'.format(self.user_id, self.first_name, self.last_name)
+
+
+class Team(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='team')
+
+    overall_score = db.Column(db.Integer)
+    score = db.relationship('Score', back_populates='team', cascade='all,delete', uselist=False)
+
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Team {}>'.format(self.user_id, self.name)
+
+
+class Score(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    round_number = db.Column(db.Integer)
+    round_name = db.Column(db.String(255))
+    round_score = db.Column(db.Integer)
+
+    team_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    team = db.relationship('Team', back_populates='score')
+
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Score {}>'.format(self.team_id)
