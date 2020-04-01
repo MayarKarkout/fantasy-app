@@ -9,13 +9,13 @@
 <div class="column is-4 is-offset-4">
     <h2 class="title">You can edit your profile here</h2>
 
-    <a class="button is-primary is-inverted is-outlined"
-       onclick="getLocation()"
-       style="margin-bottom: 30px">
+<!--    <a class="button is-primary is-inverted is-outlined"-->
+<!--       onclick="getLocation()"-->
+<!--       style="margin-bottom: 30px">-->
 
-        Fill your location details automatically
+<!--        Fill your location details automatically-->
 
-    </a>
+<!--    </a>-->
 
     <form method="POST" action="/find_my_location" id="form3">
         <input type="hidden" id="country_field" name="country">
@@ -85,33 +85,6 @@
                            placeholder={{current_user.profile.city}}
                            {% else %}
                            placeholder="City"
-                           {% endif %}
-                           autofocus=""
-                    >
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    Antipodal For Id
-                    <input class="input is-large" type="number" name="antipodal_for_id"
-                           {% if current_user.profile.user.antipodal_for_id is not none %}
-                           placeholder={{current_user.profile.user.antipodal_for_id}}
-                           {% else %}
-                           placeholder="antipodal for"
-                           {% endif %}
-                           autofocus=""
-                    >
-                </div>
-            </div>
-            <div class="field">
-                <div class="control">
-                    Antipodal Of Id
-                    <input class="input is-large" type="number" name="antipodal_of_id"
-                           {% if current_user.profile.user.antipodal_for_id is not none %}
-                           placeholder={{current_user.profile.user.antipodal_of_id}}
-                           {% else %}
-                           placeholder="antipodal of"
                            {% endif %}
                            autofocus=""
                     >
