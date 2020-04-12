@@ -73,7 +73,7 @@ class Player(db.Model):
                                    back_populates="players")
 
     # GOAL relationship (1) to Many
-    goals = db.relationship("Goal", back_populates="player")
+    goals = db.relationship("Goal", back_populates="player", cascade='all,delete')
 
     # TEAM relationship 1 to (Many)
     team_id = db.Column(db.Integer, ForeignKey('team.id'))
@@ -112,15 +112,15 @@ class Match(db.Model):
     match_id = db.Column(db.Integer)
 
     # GOAL relationship (1) to Many
-    goals = db.relationship("Goal", back_populates="match")
+    goals = db.relationship("Goal", back_populates="match", cascade='all,delete')
 
     # TEAM relationship (1) to Many
     # TEAM relationship (1) to Many
     team1_id = db.Column(db.Integer, ForeignKey("team.id"))
     team2_id = db.Column(db.Integer, ForeignKey("team.id"))
 
-    team1 = db.relationship("Team", foreign_keys=[team1_id])
-    team2 = db.relationship("Team", foreign_keys=[team2_id], back_populates="matches")
+    team1 = db.relationship("Team", foreign_keys="Match.team1_id", back_populates="matches1")
+    team2 = db.relationship("Team", foreign_keys="Match.team2_id", back_populates="matches2")
 
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
@@ -133,11 +133,11 @@ class Team(db.Model):
     name = db.Column(db.String(255))
 
     # PLAYER relationship (1) to Many
-    players = db.relationship("Player", back_populates="team")
+    players = db.relationship("Player", back_populates="team", cascade='all,delete')
 
     # MATCH relationship 1 to (Many)
-    matches1 = db.relationship("Match", back_populates="team1")
-    matches2 = db.relationship("Match", back_populates="team2")
+    matches1 = db.relationship("Match", foreign_keys="Match.team1_id", back_populates="team1")
+    matches2 = db.relationship("Match", foreign_keys="Match.team2_id", back_populates="team2")
 
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
@@ -153,7 +153,7 @@ class RoundScore(db.Model):
     round_score = db.Column(db.Integer)
 
     # FANTASYTEAM relationship 1 to (Many)
-    fantasy_team_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    fantasy_team_id = db.Column(db.Integer, db.ForeignKey('fantasy_team.id'))
     fantasy_team = db.relationship('FantasyTeam', back_populates='round_scores')
 
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
