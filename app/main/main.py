@@ -5,8 +5,8 @@ from flask import Blueprint, request, render_template
 from flask_login import login_required, current_user
 from sqlalchemy import or_, null
 
-from .models import User
-from . import db
+from app.models import User
+from app import db
 
 main = Blueprint('main', __name__)
 
