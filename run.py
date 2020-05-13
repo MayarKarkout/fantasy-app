@@ -1,7 +1,7 @@
 from app import create_app
-from config import Config
-
-app = create_app(Config)
-
+# from config import TestConfig
+#
+application = create_app()
+#
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)

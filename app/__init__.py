@@ -4,7 +4,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-# from config import Config
+from config import Config
 
 # from flask_socketio import SocketIO
 
@@ -14,10 +14,10 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
 
-def create_app(config):
+def create_app():
     app = Flask(__name__)
 
-    app.config.from_object(config)
+    app.config.from_object(Config())
 
     # blueprint for routes in our app
     from app.users.auth import auth as auth_blueprint
@@ -28,13 +28,13 @@ def create_app(config):
 
     db.init_app(app)
 
-    print(config.SQLALCHEMY_DATABASE_URI)
-    print(db.app)
+    # print(config.SQLALCHEMY_DATABASE_URI)
+    # print(db.app)
 
     login_manager.init_app(app)
     migrate = Migrate(app, db)
-
-    app.config['SECRET_KEY'] = 'secret!'
+    print('hi')
+    # app.config['SECRET_KEY'] = 'secret!'
 
     return app
 

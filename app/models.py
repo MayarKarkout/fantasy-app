@@ -11,22 +11,19 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(100), index=True, unique=True)
-    password = db.Column(db.String(100))
-    name = db.Column(db.String(64), index=True, unique=True)
+    password = db.Column(db.String(50))
     # profile_id = db.Column(db.Integer, ForeignKey('profile.id'))
     profile = db.relationship('Profile', back_populates='user', cascade='all,delete', uselist=False)
     fantasy_team = db.relationship('FantasyTeam', back_populates='user', cascade='all,delete', uselist=False)
 
     def __repr__(self):
-        return '<User {}>'.format(self.name)
+        return '<User {}>'.format(self.username)
 
 
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
-    country = db.Column(db.String(50))
-    city = db.Column(db.String(50))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', back_populates='profile')
@@ -37,9 +34,9 @@ class Profile(db.Model):
 
 # FANTASYTEAM and PLAYER relationship Many to Many
 fantasy_teams_players = db.Table('association',
-                                db.Column('fantasy_team_id', db.Integer, ForeignKey('fantasy_team.id')),
-                                db.Column('player_id', db.Integer, ForeignKey('player.id'))
-                                )
+                                 db.Column('fantasy_team_id', db.Integer, ForeignKey('fantasy_team.id')),
+                                 db.Column('player_id', db.Integer, ForeignKey('player.id'))
+                                 )
 
 
 class FantasyTeam(db.Model):
@@ -69,8 +66,8 @@ class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     fantasy_teams = db.relationship("FantasyTeam",
-                                   secondary=fantasy_teams_players,
-                                   back_populates="players")
+                                    secondary=fantasy_teams_players,
+                                    back_populates="players")
 
     # GOAL relationship (1) to Many
     goals = db.relationship("Goal", back_populates="player", cascade='all,delete')
@@ -87,7 +84,7 @@ class Player(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Player {}>'.format(self.fantasy_team_id)
+        return '<Player {}>'.format(self.id, self.number)
 
 
 class Goal(db.Model):

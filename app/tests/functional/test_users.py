@@ -17,7 +17,7 @@ def test_valid_login(test_client, init_database):
     THEN check the response is valid
     """
     response = test_client.post('/login',
-                                data=dict(email='patkennedy79@gmail.com', password='hi'),
+                                data=dict(email='test@user.com', password='hi'),
                                 follow_redirects=True)
     # print(response)
 
