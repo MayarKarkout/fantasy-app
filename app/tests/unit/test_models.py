@@ -1,3 +1,5 @@
+from app.tests.conftest import delete_fantasy_team
+
 
 def test_new_user(new_user):
     """
@@ -14,7 +16,7 @@ def test_new_profile(new_profile):
     """
     GIVEN a Profile model
     WHEN a new Profile is created
-    THEN check the firt_name and last_name are defined correctly
+    THEN check the first_name and last_name are defined correctly
     """
     assert new_profile.first_name == 'fname'
     assert new_profile.last_name == 'lname'
@@ -27,7 +29,7 @@ def test_new_fantasy_team(new_fantasy_team):
     THEN check the name and overall_score are defined correctly
     """
     assert new_fantasy_team.name == 'bestteam'
-    assert new_fantasy_team.overall_score == '100'
+    assert new_fantasy_team.overall_score == 100
 
 
 def test_new_player(new_player):
@@ -44,8 +46,8 @@ def test_new_player(new_player):
 
 def test_team(new_team):
     """
-    GIVEN a Tean model
-    WHEN a new Tean is created
+    GIVEN a Team model
+    WHEN a new Team is created
     THEN check the name is defined correctly
     """
     assert new_team.name == 'sww'

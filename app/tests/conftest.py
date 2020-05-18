@@ -46,7 +46,8 @@ def init_database():
 
 @pytest.fixture(scope='module')
 def new_user():
-    new_user = User(username='mo',
+    new_user = User(id=11,
+                    username='mo',
                     email='mo@mo.mo',
                     password='hi')
     return new_user
@@ -54,21 +55,24 @@ def new_user():
 
 @pytest.fixture(scope='module')
 def new_profile():
-    new_profile = Profile(first_name='fname',
+    new_profile = Profile(id=12,
+                          first_name='fname',
                           last_name='lname')
     return new_profile
 
 
 @pytest.fixture(scope='module')
 def new_fantasy_team():
-    new_fantasy_team = FantasyTeam(name='bestteam',
-                                   overall_score='100')
+    new_fantasy_team = FantasyTeam(id=13,
+                                   name='bestteam',
+                                   overall_score=100)
     return new_fantasy_team
 
 
 @pytest.fixture(scope='module')
 def new_player():
-    new_player = Player(number=10,
+    new_player = Player(id=14,
+                        number=10,
                         first_name='smallboy',
                         last_name='bigboy',
                         nickname='sha256')
@@ -77,8 +81,49 @@ def new_player():
 
 @pytest.fixture(scope='module')
 def new_team():
-    new_team = Team(name='sww')
+    new_team = Team(id=15,
+                    name='sww')
     return new_team
 
 
+@pytest.fixture(scope='module')
+def new_fantasy_teams():
+    new_fantasy_team1 = FantasyTeam(id=16,
+                                    name='fteam1',
+                                    overall_score='101')
+    new_fantasy_team2 = FantasyTeam(id=17,
+                                    name='fteam2',
+                                    overall_score='102')
+    new_fantasy_team3 = FantasyTeam(id=18,
+                                    name='fteam3',
+                                    overall_score='103')
+    new_fantasy_teams = [new_fantasy_team1, new_fantasy_team2, new_fantasy_team3]
 
+    return new_fantasy_team
+
+
+@pytest.fixture(scope='module')
+def new_players():
+    new_player1 = Player(id=19,
+                         number=11,
+                         first_name='fname1',
+                         last_name='lname1',
+                         nickname='nname1')
+    new_player2 = Player(id=20,
+                         number=12,
+                         first_name='fname2',
+                         last_name='lname2',
+                         nickname='nname2')
+    new_player3 = Player(id=21,
+                         number=13,
+                         first_name='fname3',
+                         last_name='lname3',
+                         nickname='nname3')
+
+    new_players = [new_player1, new_player2, new_player3]
+
+    return new_players
+
+
+def delete_fantasy_team(fantasy_team):
+    db.session.delete(fantasy_team)
