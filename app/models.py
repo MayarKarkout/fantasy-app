@@ -8,7 +8,7 @@ from app import db
 
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(100), index=True, unique=True)
     password = db.Column(db.String(50))
@@ -59,7 +59,7 @@ class FantasyTeam(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<FantasyTeam {}>'.format(self.user_id, self.name)
+        return '<FantasyTeam {}>'.format(self.name)
 
 
 class Player(db.Model):

@@ -1,0 +1,64 @@
+<!-- templates/fantasy_team.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="title">
+<!--  Welcome, {{ current_user.name }}!-->
+</h1>
+
+
+{% if current_user.fantasy_team %}
+<a>
+    {{ current_user.fantasy_team.name }}
+</a>
+
+{% else %}
+
+<div class="column is-4 is-offset-4">
+    <h2 class="title">Create your team</h2>
+
+<!--    <a class="button is-primary is-inverted is-outlined"-->
+<!--       onclick="getLocation()"-->
+<!--       style="margin-bottom: 30px">-->
+
+<!--        Fill your location details automatically-->
+
+<!--    </a>-->
+
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+            </div>
+        {% endif %}
+        {% endwith %}
+
+
+        <form method="POST" action="/fantasy_team">
+
+            <div class="field">
+                <div class="control">
+                    Choose a name for your team:
+                    <input class="input is-large" type="text" name="name"
+                           {% if current_user.profile.first_name is not none%}
+                           placeholder={{current_user.fantasy_team.name}}
+                           {% else %}
+                           placeholder="Name"
+                           {% endif %}
+                           autofocus=""
+                    >
+                </div>
+            </div>
+
+            <button class="button is-block is-info is-large is-fullwidth">Save</button>
+        </form>
+    </div>
+</div>
+
+
+{% endif %}
+
+
+{% endblock %}

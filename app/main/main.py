@@ -5,7 +5,7 @@ from flask import Blueprint, request, render_template
 from flask_login import login_required, current_user
 from sqlalchemy import or_, null
 
-from app.models import User
+from app.models import User, FantasyTeam
 from app import db
 
 main = Blueprint('main', __name__)
@@ -15,6 +15,23 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     return render_template('index.html')
+
+
+@main.route('/fantasy_team')
+@login_required
+def fantasy_team():
+    return render_template('fantasy_team.html')
+
+
+@main.route('/fantasy_team', methods=['POST'])
+def fantasy_team_post():
+
+    if request.form.get('name') is not None and request.form.get('name') != "":
+        current_user.fantasy_team = FantasyTeam(name=request.form.get('name'))
+
+    db.session.commit()
+
+    return render_template('fantasy_team.html')
 
 
 @main.route('/profile')
@@ -38,44 +55,6 @@ def profile_post():
         current_user.antipodal_for_id = request.form.get('antipodal_for_id')
         antipodal_for = User.query.get(request.form.get('antipodal_for_id'))
         antipodal_for.antipodal_for_id = current_user.id
-
-    db.session.commit()
-
-    return render_template('profile.html')
-
-
-@main.route('/location')
-def location():
-    return render_template('location.html')
-
-
-@main.route('/find_my_location', methods=['POST'])
-def find_my_location():
-    if request.form.get('city') is not None and request.form.get('city') != "":
-        current_user.profile.city = request.form.get('city')
-    if request.form.get('country') is not None and request.form.get('country') != "":
-        current_user.profile.country = request.form.get('country')
-
-    db.session.commit()
-
-    return render_template('profile.html')
-
-
-@main.route('/find_friend', methods=['POST'])
-def find_friend():
-    if request.form.get('country') is not None and request.form.get('country') != "":
-        current_user.profile.country = request.form.get('country')
-        if request.form.get('city') is not None and request.form.get('city') != "":
-            country = request.form.get('country')
-            city = request.form.get('city')
-            antipodal_of = User.query.\
-                filter_by(or_(
-                    country=country,
-                    city=city,
-                    antipodal_for=null))\
-                .first()
-            antipodal_of.antipodal_for_id = current_user.id
-            current_user.antipodal_of_id = antipodal_of.id
 
     db.session.commit()
 
