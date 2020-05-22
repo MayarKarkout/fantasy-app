@@ -6,14 +6,17 @@ from app.AppModelView import AppModelView
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from app.models import User, Profile, FantasyTeam, Player, Team
+
+from app.extensions import db, login_manager
 from config import Config
 
 # from flask_socketio import SocketIO
 
 # init SQLAlchemy so we can use it later in our models
-db = SQLAlchemy()
-login_manager = LoginManager()
-login_manager.login_view = 'auth.login'
+# db = SQLAlchemy()
+# login_manager = LoginManager()
+# login_manager.login_view = 'auth.login'
 
 
 def create_app():
@@ -31,8 +34,11 @@ def create_app():
     db.init_app(app)
 
     admin = Admin(app, template_mode='bootstrap3')
-    admin.add_view(AppModelView(User, db.session))
+    admin.add_views(AppModelView(User, db.session))
     admin.add_view(AppModelView(Profile, db.session))
+    admin.add_view(AppModelView(FantasyTeam, db.session))
+    admin.add_view(AppModelView(Team, db.session))
+    admin.add_view(AppModelView(Player, db.session))
 
     # print(config.SQLALCHEMY_DATABASE_URI)
     # print(db.app)
@@ -43,9 +49,6 @@ def create_app():
     # app.config['SECRET_KEY'] = 'secret!'
 
     return app
-
-
-from .models import User, Profile
 
 
 @login_manager.user_loader

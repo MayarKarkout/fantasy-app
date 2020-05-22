@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import backref
 
-from app import db
+from app.extensions import db
 
 
 ACCESS = {
