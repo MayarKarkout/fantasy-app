@@ -1,6 +1,8 @@
 # __init__.py
 
 from flask import Flask
+from flask_admin import Admin
+from app.AppModelView import AppModelView
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -28,18 +30,22 @@ def create_app():
 
     db.init_app(app)
 
+    admin = Admin(app, template_mode='bootstrap3')
+    admin.add_view(AppModelView(User, db.session))
+    admin.add_view(AppModelView(Profile, db.session))
+
     # print(config.SQLALCHEMY_DATABASE_URI)
     # print(db.app)
 
     login_manager.init_app(app)
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, render_as_batch=True)
     print('hi')
     # app.config['SECRET_KEY'] = 'secret!'
 
     return app
 
 
-from .models import User
+from .models import User, Profile
 
 
 @login_manager.user_loader

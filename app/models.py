@@ -7,14 +7,21 @@ from sqlalchemy.orm import backref
 from app import db
 
 
+ACCESS = {
+    'guest': 0,
+    'user': 1,
+    'admin': 2
+}
+
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(100), index=True, unique=True)
     password = db.Column(db.String(50))
-    # profile_id = db.Column(db.Integer, ForeignKey('profile.id'))
     profile = db.relationship('Profile', back_populates='user', cascade='all,delete', uselist=False)
     fantasy_team = db.relationship('FantasyTeam', back_populates='user', cascade='all,delete', uselist=False)
+    is_admin = db.Column(db.Boolean, default=0)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

@@ -34,7 +34,7 @@ def login_post():
     # take the user supplied password, hash it, and compare it to the hashed password in database
     if not user or not check_password_hash(user.password, password):
         flash('Please check your login details and try again.')
-        return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
+        return redirect(url_for('auth.login'))  # if user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
@@ -50,7 +50,7 @@ def login_post():
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     email = request.form.get('email')
-    name = request.form.get('name')
+    username = request.form.get('username')
     password = request.form.get('password')
 
     # check if user already exists in database
@@ -59,7 +59,7 @@ def signup_post():
     if user:
         return redirect(url_for('auth.signup'))
     # create new user using inputted data; password is encrypted from plaintext
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+    new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
     # add new user to database
     new_profile = Profile(user=new_user)
     db.session.add(new_profile)
