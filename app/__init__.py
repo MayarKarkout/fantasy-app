@@ -6,7 +6,7 @@ from app.AppModelView import AppModelView
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from app.models import User, Profile, FantasyTeam, Player, Team
+from app.models import User, Profile, FantasyTeam, Player, Team, RoundScore, Match, Goal
 
 from app.extensions import db, login_manager
 from config import Config
@@ -39,6 +39,10 @@ def create_app():
     admin.add_view(AppModelView(FantasyTeam, db.session))
     admin.add_view(AppModelView(Team, db.session))
     admin.add_view(AppModelView(Player, db.session))
+
+    admin.add_view(AppModelView(Goal, db.session))
+    admin.add_view(AppModelView(Match, db.session))
+    admin.add_view(AppModelView(RoundScore, db.session))
 
     # print(config.SQLALCHEMY_DATABASE_URI)
     # print(db.app)

@@ -146,7 +146,7 @@ class Team(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<Team {}>'.format(self.user_id, self.name)
+        return '<Team {}>'.format(self.id, self.name)
 
 
 class RoundScore(db.Model):
