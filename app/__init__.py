@@ -3,8 +3,6 @@
 from flask import Flask
 from flask_admin import Admin
 from app.AppModelView import AppModelView
-from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from app.models import User, Profile, FantasyTeam, Player, Team, RoundScore, Match, Goal
 
@@ -25,11 +23,13 @@ def create_app():
     app.config.from_object(Config())
 
     # blueprint for routes in our app
-    from app.users.auth import auth as auth_blueprint
-    from app.main.main import main as main_blueprint
+    from app.routes.auth import auth as auth_blueprint
+    from app.routes.main import main as main_blueprint
+    from app.routes.api import api as api_blueprint
 
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(main_blueprint)
+    app.register_blueprint(api_blueprint)
 
     db.init_app(app)
 
