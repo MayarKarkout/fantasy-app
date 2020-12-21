@@ -3,38 +3,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-<!--  Welcome, {{ current_user.name }}!-->
-</h1>
-
 
 {% if current_user.fantasy_team %}
-<a>
+<h1 class="title">
     {{ current_user.fantasy_team.name }}
-</a>
+</h1>
 
 {% else %}
-
+<!--create team -->
 <div class="column is-4 is-offset-4">
     <h2 class="title">Create your team</h2>
-
-<!--    <a class="button is-primary is-inverted is-outlined"-->
-<!--       onclick="getLocation()"-->
-<!--       style="margin-bottom: 30px">-->
-
-<!--        Fill your location details automatically-->
-
-<!--    </a>-->
-
     <div class="box">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
-            </div>
+        <div class="notification is-danger">
+            {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+        </div>
         {% endif %}
         {% endwith %}
-
 
         <form method="POST" action="/fantasy_team">
 
@@ -42,13 +28,9 @@
                 <div class="control">
                     Choose a name for your team:
                     <input class="input is-large" type="text" name="name"
-                           {% if current_user.profile.first_name is not none%}
-                           placeholder={{current_user.fantasy_team.name}}
-                           {% else %}
-                           placeholder="Name"
-                           {% endif %}
-                           autofocus=""
-                    >
+                        {% if current_user.profile.first_name is not none%}
+                        placeholder={{current_user.fantasy_team.name}} {% else %} placeholder="Name" {% endif %}
+                        autofocus="">
                 </div>
             </div>
 
@@ -61,4 +43,39 @@
 {% endif %}
 
 
+<nav class="level">
+    <div class="level-left">
+
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <nav class="panel">
+                <p class="panel-heading">
+                    Players
+                </p>
+                <div class="panel-block">
+                    <p class="control has-icons-left">
+                        <input class="input" type="text" placeholder="Search">
+                        <span class="icon is-left">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </span>
+                    </p>
+                </div>
+                <p class="panel-tabs">
+                    <a class="is-active">All</a>
+                    <a>Chasers</a>
+                    <a>Beaters</a>
+                </p>
+                {% for player in players %}
+                <a class="panel-block is-active">
+                    <span class="panel-icon">
+                        <i class="fas fa-book" aria-hidden="true"></i>
+                    </span>
+                    {{ player.first_name }}
+                </a>
+                {% endfor %}
+            </nav>
+        </div>
+    </div>
+</nav>
 {% endblock %}

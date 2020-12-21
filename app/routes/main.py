@@ -5,7 +5,7 @@ from flask import Blueprint, request, render_template
 from flask_login import login_required, current_user
 from sqlalchemy import or_, null
 
-from app.models import User, FantasyTeam
+from app.models import User, FantasyTeam, Player
 from app import db
 
 main = Blueprint('main', __name__)
@@ -20,7 +20,8 @@ def index():
 @main.route('/fantasy_team')
 @login_required
 def fantasy_team():
-    return render_template('fantasy_team.html')
+    players = Player.query.all()
+    return render_template('fantasy_team.html', players=players)
 
 
 @main.route('/fantasy_team', methods=['POST'])
